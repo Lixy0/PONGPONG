@@ -1,21 +1,21 @@
 body{
     font-family: Arial, sans-serif;
     font-size: 12px;
-    background-color: rgba(52, 79, 0, 0.72);
+    background-color: rgba(0, 0, 0, 0.72);
     text-align: center;
 }
 a{
-    color: #ffffff;
+    color: #000000;
     text-transform: uppercase;
     text-decoration: none;
     transition: color 1s;
 }
 a:hover{
-    color: #08ff00;
+    color: #c4c4c4;
     text-decoration: underline;
 }
 a:visited{
-    color: #228800;
+    color: #cbcbcb;
 }
 #game{
     margin-bottom: 10px;
