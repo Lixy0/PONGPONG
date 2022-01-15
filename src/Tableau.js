@@ -82,13 +82,15 @@ class Tableau extends Phaser.Scene {
         let me=this
         this.input.keyboard.on('keydown', function (kevent) {
             switch (kevent.keyCode) {
-                case Phaser.Input.Keyboard.KeyCodes.Z:
+                case Phaser.Input.Keyboard.KeyCodes.A:
+                            gauche.y -= 1;
                     break;
-                case Phaser.Input.Keyboard.KeyCodes.S:
+                case Phaser.Input.Keyboard.KeyCodes.Q:
+                            gauche.y += 1;
                     break;
-                case Phaser.Input.Keyboard.KeyCodes.UP:
+                case Phaser.Input.Keyboard.KeyCodes.P:
                     break;
-                case Phaser.Input.Keyboard.KeyCodes.DOWN:
+                case Phaser.Input.Keyboard.KeyCodes.M:
                     break;
             }
         });
