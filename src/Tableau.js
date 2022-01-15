@@ -16,6 +16,11 @@ class Tableau extends Phaser.Scene {
         this.hauteur=500
         this.largeur=1000
 
+        //affichage du score initial
+        this.scoreText = this.add.text(110, 50, 'J1 : 0', { fontSize: '32px', fill: '#ffffff' });
+        this.scoreText2 = this.add.text(710, 50, 'J2 : 0', { fontSize: '32px', fill: '#ffffff' });
+
+
         //haut (physique, taille)
         this.haut = this.physics.add.sprite(0,0,'carre').setOrigin(0,0);
         this.haut.setDisplaySize(this.largeur,20);
@@ -53,20 +58,23 @@ class Tableau extends Phaser.Scene {
         this.physics.add.collider(this.balle,this.bas);
         this.physics.add.collider(this.balle,this.gauche);
         this.physics.add.collider(this.balle,this.droite);
-        this.physics.add.collider(this.droite,this.haut);
-        this.physics.add.collider(this.droite,this.bas);
-        this.physics.add.collider(this.gauche,this.haut);
-        this.physics.add.collider(this.gauche,this.bas);
-
-
-
 
         //création de la fonction clavier
         this.initKeyboard();
-        this.speed=0;
+
+        //vitesse initial des pads
+        this.gaucheSpeed = 0
+        this.droiteSpeed = 0
+
+        //scores initial des joueurs
+        this.scoreGauche=0
+        this.scoreDroite=0
+
     }
 
     update() {
+
+        //pour eviter beug de collisions avec la balles et les murs
         if (this.balle.x > this.largeur) {
             this.balle.x = 0
         }
@@ -76,21 +84,58 @@ class Tableau extends Phaser.Scene {
         if (this.balle.y > this.hauteur) {
             this.balle.y = 0
         }
+        if (this.gauche.y < 0) {
+            this.gauche.y = 0
+        }
+        if (this.gauche.y > this.hauteur) {
+            this.gauche.y = 0
+        }
+        if (this.droite.y < 0) {
+            this.droite.y = 0
+        }
+        if (this.droite.y > this.hauteur) {
+            this.droite.y = 0
+        }
+
+        //joueur GAUCHE (verif collisions mur haut/bas)
+        if(this.gauche.y<20){
+            this.gaucheSpeed=0
+            this.gauche.y=21
+        }
+        if(this.gauche.y>405){
+            this.gaucheSpeed=0
+            this.gauche.y=404
+        }
+
+        //joueur DROITE (verif collisions mur haut/bas)
+        if(this.droite.y<20){
+            this.droiteSpeed=0
+            this.droite.y=21
+        }
+        if(this.droite.y>405){
+            this.droiteSpeed=0
+            this.droite.y=404
+        }
+
+        this.gauche.y += this.gaucheSpeed
+        this.droite.y += this.droiteSpeed
     }
 
     initKeyboard(){
-        let me=this
+        let me = this
         this.input.keyboard.on('keydown', function (kevent) {
             switch (kevent.keyCode) {
                 case Phaser.Input.Keyboard.KeyCodes.A:
-                            gauche.y -= 1;
+                        me.gaucheSpeed = -10
                     break;
                 case Phaser.Input.Keyboard.KeyCodes.Q:
-                            gauche.y += 1;
+                        me.gaucheSpeed = 10
                     break;
                 case Phaser.Input.Keyboard.KeyCodes.P:
+                        me.droiteSpeed = -10
                     break;
                 case Phaser.Input.Keyboard.KeyCodes.M:
+                        me.droiteSpeed = 10
                     break;
             }
         });
@@ -98,10 +143,17 @@ class Tableau extends Phaser.Scene {
         {
             switch (kevent.keyCode)
             {
-                case Phaser.Input.Keyboard.KeyCodes.Z:
-                case Phaser.Input.Keyboard.KeyCodes.S:
-                case Phaser.Input.Keyboard.KeyCodes.UP:
-                case Phaser.Input.Keyboard.KeyCodes.DOWN:
+                case Phaser.Input.Keyboard.KeyCodes.A:
+                        me.gaucheSpeed = 0
+                    break
+                case Phaser.Input.Keyboard.KeyCodes.Q:
+                        me.gaucheSpeed = 0
+                    break
+                case Phaser.Input.Keyboard.KeyCodes.P:
+                        me.droiteSpeed = 0
+                    break
+                case Phaser.Input.Keyboard.KeyCodes.M:
+                        me.droiteSpeed = 0
                     break;
             }
         });
