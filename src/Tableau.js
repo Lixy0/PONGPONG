@@ -46,13 +46,13 @@ class Tableau extends Phaser.Scene {
 
         //gauche(physique, taille)
         this.gauche = this.physics.add.sprite(40,210,'carre').setOrigin(0,0);
-        this.gauche.setDisplaySize(15,75);
+        this.gauche.setDisplaySize(15,100);
         this.gauche.body.setAllowGravity(false);
         this.gauche.setImmovable(true);
 
         //droite(physique, taille)
         this.droite = this.physics.add.sprite(950,210,'carre').setOrigin(0,0);
-        this.droite.setDisplaySize(15,75);
+        this.droite.setDisplaySize(15,100);
         this.droite.body.setAllowGravity(false);
         this.droite.setImmovable(true);
 
@@ -140,9 +140,9 @@ class Tableau extends Phaser.Scene {
             this.gaucheSpeed = 0
             this.gauche.y = 21
         }
-        if (this.gauche.y > 405) {
+        if (this.gauche.y > 390) {
             this.gaucheSpeed = 0
-            this.gauche.y = 404
+            this.gauche.y = 389
         }
 
         //joueur DROITE (verif collisions mur haut/bas)
@@ -150,9 +150,9 @@ class Tableau extends Phaser.Scene {
             this.droiteSpeed = 0
             this.droite.y = 21
         }
-        if (this.droite.y > 405) {
+        if (this.droite.y > 390) {
             this.droiteSpeed = 0
-            this.droite.y = 404
+            this.droite.y = 389
         }
 
         this.gauche.y += this.gaucheSpeed
