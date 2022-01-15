@@ -39,7 +39,7 @@ class Tableau extends Phaser.Scene {
         this.balle = this.physics.add.sprite(this.largeur/2,this.hauteur/2,'balle').setOrigin(0,0);
         this.balle.setDisplaySize(20,20);
         //actions de rebondisement/speed
-        this.balle.body.setBounce(1.1,1.1);
+        this.balle.body.setBounce(1.5,1.5);
         this.balle.setVelocityX(Phaser.Math.Between(200,-200));
         this.balle.body.setMaxVelocity(500,500);
 
@@ -102,6 +102,8 @@ class Tableau extends Phaser.Scene {
         this.scoreTextGauche.setText('J1: '+ this.scoreGauche)
         this.balle.x=this.largeur/2
         this.balle.y=this.hauteur/2
+        this.balle.setVelocityX(Phaser.Math.Between(200,-200));
+
     }
     //si balle touche gauche, +10 score J2, reset position balle
     resetGauche() {
@@ -109,6 +111,7 @@ class Tableau extends Phaser.Scene {
         this.scoreTextDroite.setText('J2: ' + this.scoreDroite)
         this.balle.x = this.largeur/2
         this.balle.y = this.hauteur/2
+        this.balle.setVelocityX(Phaser.Math.Between(200,-200));
     }
 
     update() {
