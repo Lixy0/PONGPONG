@@ -16,9 +16,9 @@ class Tableau extends Phaser.Scene {
         this.hauteur=500
         this.largeur=1000
 
-        //affichage du score initial
-        this.scoreText = this.add.text(110, 50, 'J1 : 0', { fontSize: '32px', fill: '#ffffff' });
-        this.scoreText2 = this.add.text(710, 50, 'J2 : 0', { fontSize: '32px', fill: '#ffffff' });
+        //affichage du score initial (TEXT)
+        this.scoreTextGauche = this.add.text(110, 50, 'J1 : 0', { fontSize: '32px', fill: '#ffffff' });
+        this.scoreTextDroite = this.add.text(710, 50, 'J2 : 0', { fontSize: '32px', fill: '#ffffff' });
 
 
         //haut (physique, taille)
@@ -72,9 +72,24 @@ class Tableau extends Phaser.Scene {
 
     }
 
-    update() {
+    //si balle touche droite, +10 score J1, reset position balle
+    resetDroite(){
+        this.scoreGauche+=10
+        this.scoreTextGauche.setText('J1: '+ this.scoreGauche)
+        this.balle.x=this.largeur/2
+        this.balle.y=this.hauteur/2
+    }
 
-        //pour eviter beug de collisions avec la balles et les murs
+    //si balle touche gauche, +10 score J2, reset position balle
+    resetGauche() {
+        this.scoreDroite+= 10
+        this.scoreTextDroite.setText('J2: ' + this.scoreDroite)
+        this.balle.x = this.largeur/2
+        this.balle.y = this.hauteur/2
+    }
+
+    update() {
+        //pour eviter bug de collisions avec la balles et les murs
         if (this.balle.x > this.largeur) {
             this.balle.x = 0
         }
@@ -119,6 +134,14 @@ class Tableau extends Phaser.Scene {
 
         this.gauche.y += this.gaucheSpeed
         this.droite.y += this.droiteSpeed
+
+        //verif si la balle touche à droite ou à gauhce -> update le score
+        if(this.balle.x>990){
+            this.resetDroite()
+        }
+        if(this.balle.x<-5){
+            this.resetGauche()
+        }
     }
 
     initKeyboard(){
@@ -126,16 +149,16 @@ class Tableau extends Phaser.Scene {
         this.input.keyboard.on('keydown', function (kevent) {
             switch (kevent.keyCode) {
                 case Phaser.Input.Keyboard.KeyCodes.A:
-                        me.gaucheSpeed = -10
+                        me.gaucheSpeed = -5
                     break;
                 case Phaser.Input.Keyboard.KeyCodes.Q:
-                        me.gaucheSpeed = 10
+                        me.gaucheSpeed = 5
                     break;
                 case Phaser.Input.Keyboard.KeyCodes.P:
-                        me.droiteSpeed = -10
+                        me.droiteSpeed = -5
                     break;
                 case Phaser.Input.Keyboard.KeyCodes.M:
-                        me.droiteSpeed = 10
+                        me.droiteSpeed = 5
                     break;
             }
         });
