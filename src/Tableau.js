@@ -6,19 +6,22 @@ class Tableau extends Phaser.Scene {
     preload() {
         this.load.image('carre','asset/carre.png');
         this.load.image('balle','asset/cercle.png');
+        //preload de sons
+        this.load.audio('paddleS', 'sound/pong-paddle.mp3')
+        this.load.audio('wallS', 'sound/pong-wall.mp3')
+        this.load.audio('scoreS', 'sound/pong-score.mp3')
     }
 
     /**
      * Affiche les assets/placement/size
      */
-
     create() {
         this.hauteur=500
         this.largeur=1000
 
         //affichage du score initial (TEXT)
-        this.scoreTextGauche = this.add.text(110, 50, 'J1 : 0', { fontSize: '32px', fill: '#ffffff' });
-        this.scoreTextDroite = this.add.text(710, 50, 'J2 : 0', { fontSize: '32px', fill: '#ffffff' });
+        this.scoreTextGauche = this.add.text(110, 50, 'J1 : 0', { fontSize: '32px', fill: '#a6a6a6' });
+        this.scoreTextDroite = this.add.text(710, 50, 'J2 : 0', { fontSize: '32px', fill: '#a6a6a6' });
 
 
         //haut (physique, taille)
@@ -38,7 +41,7 @@ class Tableau extends Phaser.Scene {
         //actions de rebondisement/speed
         this.balle.body.setBounce(1.1,1.1);
         this.balle.setVelocityX(Phaser.Math.Between(200,-200));
-        this.balle.body.setMaxVelocity(500,500)
+        this.balle.body.setMaxVelocity(500,500);
 
 
         //gauche(physique, taille)
@@ -53,14 +56,32 @@ class Tableau extends Phaser.Scene {
         this.droite.body.setAllowGravity(false);
         this.droite.setImmovable(true);
 
+        //séparation centre comme dans PONG
+        this.separation4 = this.add.sprite(500,10,'carre').setOrigin(0,0);
+        this.separation4.setDisplaySize(5,60);
+        this.separation3 = this.add.sprite(500,80,'carre').setOrigin(0,0);
+        this.separation3.setDisplaySize(5,60);
+        this.separation2 = this.add.sprite(500,150,'carre').setOrigin(0,0);
+        this.separation2.setDisplaySize(5,60);
+
+        this.separation1 = this.add.sprite(500,220,'carre').setOrigin(0,0);
+        this.separation1.setDisplaySize(5,60);
+
+        this.separation5 = this.add.sprite(500,290,'carre').setOrigin(0,0);
+        this.separation5.setDisplaySize(5,60);
+        this.separation6 = this.add.sprite(500,360,'carre').setOrigin(0,0);
+        this.separation6.setDisplaySize(5,60);
+        this.separation7 = this.add.sprite(500,430,'carre').setOrigin(0,0);
+        this.separation7.setDisplaySize(5,60);
+
+
+
         //colliders
         this.physics.add.collider(this.balle,this.haut);
         this.physics.add.collider(this.balle,this.bas);
         this.physics.add.collider(this.balle,this.gauche);
         this.physics.add.collider(this.balle,this.droite);
 
-        //création de la fonction clavier
-        this.initKeyboard();
 
         //vitesse initial des pads
         this.gaucheSpeed = 0
@@ -70,19 +91,21 @@ class Tableau extends Phaser.Scene {
         this.scoreGauche=0
         this.scoreDroite=0
 
+        //création de la fonction clavier
+        this.initKeyboard();
+
     }
 
     //si balle touche droite, +10 score J1, reset position balle
     resetDroite(){
-        this.scoreGauche+=10
+        this.scoreGauche+=1
         this.scoreTextGauche.setText('J1: '+ this.scoreGauche)
         this.balle.x=this.largeur/2
         this.balle.y=this.hauteur/2
     }
-
     //si balle touche gauche, +10 score J2, reset position balle
     resetGauche() {
-        this.scoreDroite+= 10
+        this.scoreDroite+= 1
         this.scoreTextDroite.setText('J2: ' + this.scoreDroite)
         this.balle.x = this.largeur/2
         this.balle.y = this.hauteur/2
@@ -113,33 +136,33 @@ class Tableau extends Phaser.Scene {
         }
 
         //joueur GAUCHE (verif collisions mur haut/bas)
-        if(this.gauche.y<20){
-            this.gaucheSpeed=0
-            this.gauche.y=21
+        if (this.gauche.y < 20) {
+            this.gaucheSpeed = 0
+            this.gauche.y = 21
         }
-        if(this.gauche.y>405){
-            this.gaucheSpeed=0
-            this.gauche.y=404
+        if (this.gauche.y > 405) {
+            this.gaucheSpeed = 0
+            this.gauche.y = 404
         }
 
         //joueur DROITE (verif collisions mur haut/bas)
-        if(this.droite.y<20){
-            this.droiteSpeed=0
-            this.droite.y=21
+        if (this.droite.y < 20) {
+            this.droiteSpeed = 0
+            this.droite.y = 21
         }
-        if(this.droite.y>405){
-            this.droiteSpeed=0
-            this.droite.y=404
+        if (this.droite.y > 405) {
+            this.droiteSpeed = 0
+            this.droite.y = 404
         }
 
         this.gauche.y += this.gaucheSpeed
         this.droite.y += this.droiteSpeed
 
         //verif si la balle touche à droite ou à gauhce -> update le score
-        if(this.balle.x>990){
+        if (this.balle.x > 990) {
             this.resetDroite()
         }
-        if(this.balle.x<-5){
+        if (this.balle.x < -5) {
             this.resetGauche()
         }
     }
@@ -148,17 +171,17 @@ class Tableau extends Phaser.Scene {
         let me = this
         this.input.keyboard.on('keydown', function (kevent) {
             switch (kevent.keyCode) {
-                case Phaser.Input.Keyboard.KeyCodes.A:
-                        me.gaucheSpeed = -5
+                case Phaser.Input.Keyboard.KeyCodes.S:
+                    me.gaucheSpeed = -5
                     break;
-                case Phaser.Input.Keyboard.KeyCodes.Q:
-                        me.gaucheSpeed = 5
+                case Phaser.Input.Keyboard.KeyCodes.X:
+                    me.gaucheSpeed = 5
                     break;
-                case Phaser.Input.Keyboard.KeyCodes.P:
-                        me.droiteSpeed = -5
+                case Phaser.Input.Keyboard.KeyCodes.J:
+                    me.droiteSpeed = -5
                     break;
-                case Phaser.Input.Keyboard.KeyCodes.M:
-                        me.droiteSpeed = 5
+                case Phaser.Input.Keyboard.KeyCodes.N:
+                    me.droiteSpeed = 5
                     break;
             }
         });
@@ -166,19 +189,19 @@ class Tableau extends Phaser.Scene {
         {
             switch (kevent.keyCode)
             {
-                case Phaser.Input.Keyboard.KeyCodes.A:
-                        me.gaucheSpeed = 0
+                case Phaser.Input.Keyboard.KeyCodes.S:
+                    me.gaucheSpeed = 0
                     break
-                case Phaser.Input.Keyboard.KeyCodes.Q:
-                        me.gaucheSpeed = 0
+                case Phaser.Input.Keyboard.KeyCodes.X:
+                    me.gaucheSpeed = 0
                     break
-                case Phaser.Input.Keyboard.KeyCodes.P:
-                        me.droiteSpeed = 0
+                case Phaser.Input.Keyboard.KeyCodes.J:
+                    me.droiteSpeed = 0
                     break
-                case Phaser.Input.Keyboard.KeyCodes.M:
-                        me.droiteSpeed = 0
+                case Phaser.Input.Keyboard.KeyCodes.N:
+                    me.droiteSpeed = 0
                     break;
             }
         });
     }
-    }
+}
