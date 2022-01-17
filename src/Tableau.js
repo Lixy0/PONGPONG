@@ -41,8 +41,9 @@ class Tableau extends Phaser.Scene {
         //actions de rebondisement/speed
         this.balle.body.setBounce(1.5,1.5);
         this.balle.setVelocityX(Phaser.Math.Between(200,-200));
-        this.balle.body.setMaxVelocity(500,500);
-
+        this.balle.setVelocityY(Phaser.Math.Between(0,0));
+        this.balle.body.setMaxVelocityX(500,500);
+        this.balle.body.setMaxVelocityY(100,100);
 
         //gauche(physique, taille)
         this.gauche = this.physics.add.sprite(40,210,'carre').setOrigin(0,0);
@@ -74,14 +75,18 @@ class Tableau extends Phaser.Scene {
         this.separation7 = this.add.sprite(500,430,'carre').setOrigin(0,0);
         this.separation7.setDisplaySize(5,60);
 
-
-
         //colliders
+        let me = this;
+
         this.physics.add.collider(this.balle,this.haut);
         this.physics.add.collider(this.balle,this.bas);
         this.physics.add.collider(this.balle,this.gauche);
         this.physics.add.collider(this.balle,this.droite);
 
+        this.physics.add.collider(this.balle, this.droite, function() {
+            console.log ("touche droit")
+            me.rebond(me.droite)
+        });
 
         //vitesse initial des pads
         this.gaucheSpeed = 0
@@ -93,6 +98,13 @@ class Tableau extends Phaser.Scene {
 
         //création de la fonction clavier
         this.initKeyboard();
+
+    }
+
+    rebond(raquette){
+        console.log(raquette.y);
+        console.log(this.balle.y);
+        console.log(this.balle.y-raquette.y);
 
     }
 
