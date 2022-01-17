@@ -96,9 +96,13 @@ class Tableau extends Phaser.Scene {
         this.gaucheSpeed = 0
         this.droiteSpeed = 0
 
-        //scores initial des joueurs
-        this.scoreGauche=0
-        this.scoreDroite=0
+        /**
+         * @type {number}
+         //scores initial des joueurs
+         this.scoreGauche=0
+         this.scoreDroite=0
+         */
+
 
         //création de la fonction clavier
         this.initKeyboard();
@@ -106,12 +110,27 @@ class Tableau extends Phaser.Scene {
     }
 
     rebond(raquette){
-        console.log(raquette.y);
-        console.log(this.balle.y);
-        console.log(this.balle.y-raquette.y);
+
+        let me=this;
+
+        console.log(raquette.y)
+        console.log(me.balle.y)
+        console.log((me.balle.y)-(raquette.y))
+
+        let hauteurRaquette = raquette.displayHeight;
+
+        let positionRelativeRaquette =(this.balle.y-raquette.y);
+
+        positionRelativeRaquette = (positionRelativeRaquette/hauteurRaquette);
+
+        positionRelativeRaquette = (positionRelativeRaquette*2-1);
+        console.log(positionRelativeRaquette);
+
+        this.balle.setVelocityY( this.balle.body.velocity.y + positionRelativeRaquette * hauteurRaquette)
+
     }
 
-
+/*
     win(player){
         //points ++
         this.score.player+= 1;
@@ -124,6 +143,8 @@ class Tableau extends Phaser.Scene {
         this.balle.body.setMaxVelocityX(500,500);
         this.balle.body.setMaxVelocityY(100,100);
     }
+ */
+
 
 
     update() {
@@ -173,6 +194,7 @@ class Tableau extends Phaser.Scene {
         this.gauche.y += this.gaucheSpeed
         this.droite.y += this.droiteSpeed
 
+        /*
         //verif si la balle touche à droite ou à gauhce -> update le score
         if (this.balle.x > 990) {
             this.resetDroite()
@@ -180,6 +202,7 @@ class Tableau extends Phaser.Scene {
         if (this.balle.x < -5) {
             this.resetGauche()
         }
+         */
     }
 
     initKeyboard(){
