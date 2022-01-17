@@ -20,8 +20,11 @@ class Tableau extends Phaser.Scene {
         this.largeur=1000
 
         //affichage du score initial (TEXT)
-        this.scoreTextGauche = this.add.text(110, 50, 'J1 : 0', { fontSize: '32px', fill: '#a6a6a6' });
-        this.scoreTextDroite = this.add.text(710, 50, 'J2 : 0', { fontSize: '32px', fill: '#a6a6a6' });
+        /**
+         *
+         this.scoreText.player2 = this.add.text(110, 50, '0', { fontSize: '32px', fill: '#a6a6a6' });
+         this.scoreText.player1 = this.add.text(710, 50, '0', { fontSize: '32px', fill: '#a6a6a6' });
+         */
 
 
         //haut (physique, taille)
@@ -76,16 +79,17 @@ class Tableau extends Phaser.Scene {
         this.separation7.setDisplaySize(5,60);
 
         //colliders
-        let me = this;
-
         this.physics.add.collider(this.balle,this.haut);
         this.physics.add.collider(this.balle,this.bas);
-        this.physics.add.collider(this.balle,this.gauche);
-        this.physics.add.collider(this.balle,this.droite);
 
+        let me = this;
         this.physics.add.collider(this.balle, this.droite, function() {
             console.log ("touche droit")
             me.rebond(me.droite)
+        });
+        this.physics.add.collider(this.balle, this.gauche, function() {
+            console.log ("touche gauche")
+            me.rebond(me.gauche)
         });
 
         //vitesse initial des pads
@@ -105,26 +109,22 @@ class Tableau extends Phaser.Scene {
         console.log(raquette.y);
         console.log(this.balle.y);
         console.log(this.balle.y-raquette.y);
-
     }
 
-    //si balle touche droite, +10 score J1, reset position balle
-    resetDroite(){
-        this.scoreGauche+=1
-        this.scoreTextGauche.setText('J1: '+ this.scoreGauche)
+
+    win(player){
+        //points ++
+        this.score.player+= 1;
+        this.scoreText.setText('' + this.score.player)
+        //reset start up point etc...
         this.balle.x=this.largeur/2
         this.balle.y=this.hauteur/2
         this.balle.setVelocityX(Phaser.Math.Between(200,-200));
+        this.balle.setVelocityY(Phaser.Math.Between(0,0));
+        this.balle.body.setMaxVelocityX(500,500);
+        this.balle.body.setMaxVelocityY(100,100);
+    }
 
-    }
-    //si balle touche gauche, +10 score J2, reset position balle
-    resetGauche() {
-        this.scoreDroite+= 1
-        this.scoreTextDroite.setText('J2: ' + this.scoreDroite)
-        this.balle.x = this.largeur/2
-        this.balle.y = this.hauteur/2
-        this.balle.setVelocityX(Phaser.Math.Between(200,-200));
-    }
 
     update() {
         //pour eviter bug de collisions avec la balles et les murs
