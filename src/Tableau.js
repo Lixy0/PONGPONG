@@ -19,14 +19,6 @@ class Tableau extends Phaser.Scene {
         this.hauteur=500
         this.largeur=1000
 
-        //affichage du score initial (TEXT)
-        /**
-         *
-         this.scoreText.player2 = this.add.text(110, 50, '0', { fontSize: '32px', fill: '#a6a6a6' });
-         this.scoreText.player1 = this.add.text(710, 50, '0', { fontSize: '32px', fill: '#a6a6a6' });
-         */
-
-
         //haut (physique, taille)
         this.haut = this.physics.add.sprite(0,0,'carre').setOrigin(0,0);
         this.haut.setDisplaySize(this.largeur,20);
@@ -107,26 +99,30 @@ class Tableau extends Phaser.Scene {
         //création de la fonction clavier
         this.initKeyboard();
 
+        this.balleAucentre();
+
+        this.joueurGauche = new Joueur('J1','joueurGauche')
+        this.joueurDroite = new Joueur('J2','joueurDroite')
     }
 
-    rebond(raquette){
+    rebond(players){
 
         let me=this;
 
-        console.log(raquette.y)
+        console.log(players.y)
         console.log(me.balle.y)
-        console.log((me.balle.y)-(raquette.y))
+        console.log((me.balle.y)-(players.y))
 
-        let hauteurRaquette = raquette.displayHeight;
+        let hauteurPlayers = players.displayHeight;
 
-        let positionRelativeRaquette =(this.balle.y-raquette.y);
+        let positionRelativePlayers =(this.balle.y-players.y);
 
-        positionRelativeRaquette = (positionRelativeRaquette/hauteurRaquette);
+        positionRelativePlayers = (positionRelativePlayers/hauteurPlayers);
 
-        positionRelativeRaquette = (positionRelativeRaquette*2-1);
-        console.log(positionRelativeRaquette);
+        positionRelativePlayers = (positionRelativePlayers*2-1);
+        console.log(positionRelativePlayers);
 
-        this.balle.setVelocityY( this.balle.body.velocity.y + positionRelativeRaquette * hauteurRaquette)
+        this.balle.setVelocityY( this.balle.body.velocity.y + positionRelativePlayers * hauteurPlayers)
 
     }
 
@@ -146,14 +142,34 @@ class Tableau extends Phaser.Scene {
  */
 
 
+    balleAucentre(){
+        this.balle.x = this.largeur/2
+        this.balle.y = this.hauteur/2
+        this.speedX = 0
+
+        this.balle.setVelocityX(Math.random()>0.5?-300:300)
+        this.balle.setVelocityY(0)
+    }
+
+    /**
+     *
+     * @param {Joueur} joueur
+     */
+    win(joueur){
+        //alert('Joueur '+joueur.name+' gagne')
+        joueur.score ++;
+        //alert('Le score est de '+this.joueurGauche.score+' a '+this.joueurDroite.score)
+        this.balleAucentre();
+    }
+
 
     update() {
         //pour eviter bug de collisions avec la balles et les murs
         if (this.balle.x > this.largeur) {
-            this.balle.x = 0
+            this.win(this.joueurGauche);
         }
-        if (this.balle.y < 0) {
-            this.balle.y = 0
+        if (this.balle.x < 0) {
+            this.win(this.joueurDroite);
         }
         if (this.balle.y > this.hauteur) {
             this.balle.y = 0
