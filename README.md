@@ -1,5 +1,5 @@
 # PONGPONG~~
- Encore un pong, mais PHAZER
+ Encore un pong, mais PHAZER/ javascript ;v;
 
 
- Liens : https://lixy0.github.io/pong/
+ Liens pour jouer : https://lixy0.github.io/pong/
