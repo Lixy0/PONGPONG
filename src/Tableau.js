@@ -1,4 +1,18 @@
+//un essaie que j'ai fait pour un écran de chargement
+var myVar;
+
+function myFunction() {
+    myVar = setTimeout(showPage, 3000);
+}
+
+function showPage() {
+    document.getElementById("loader").style.display = "none";
+    document.getElementById("myDiv").style.display = "block";
+}
+
+
 class Tableau extends Phaser.Scene {
+
 
     /**
      * Précharge les assets
