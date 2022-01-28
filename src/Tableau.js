@@ -13,10 +13,6 @@ class Tableau extends Phaser.Scene {
         this.load.image('terrain', 'asset/terrain.png');
 
         //preload de sons
-        this.load.audio('ballSound', 'sound/ping.wav')
-        this.load.audio('ballSound2', 'sound/ping2.wav')
-        this.load.audio('paddleSwosh', 'sound/swosh1.wav')
-
         this.load.audio('mainTheme', 'sound/wiiSportsTheme.mp3')
     }
 
@@ -62,13 +58,10 @@ class Tableau extends Phaser.Scene {
         this.droite.body.setAllowGravity(false);
         this.droite.setImmovable(true);
 
-        //idée BONUS : Gameplay raquette du millieu ? (physique, taille)
-
 
         //colliders balle/bordure
         this.physics.add.collider(this.balle, this.haut);
         this.physics.add.collider(this.balle, this.bas);
-
 
         //colliders balle/raquettes
         let me = this;
@@ -79,6 +72,7 @@ class Tableau extends Phaser.Scene {
             me.rebond(me.gauche)
         });
 
+
         //vitesse initial des pads
         this.gaucheSpeed = 0
         this.droiteSpeed = 0
@@ -88,6 +82,10 @@ class Tableau extends Phaser.Scene {
         this.initKeyboard();
         //creation de balle au centre (reset positions de la balle si point gagné)
         this.balleAucentre();
+
+        //visuel clavier
+        this.creerClavier();
+
 
         //définition des scores (noms et à qui chaque nom correspond)
         this.joueurGauche = new Joueur('Matt', 'joueurGauche')
@@ -199,7 +197,21 @@ class Tableau extends Phaser.Scene {
 
     }
 
-
+    creerClavier() {
+        //pression des touches
+        let espacement = (this.game.config.width - 2) / this.lettres.length; // -2 c'est pour avoir une petite marge d'un pixel
+        let x = 1;
+        for (let lettre of this.lettres) {
+            let objetGraphique = this.add.text(x, 1, lettre, {
+                color: "#FFFFFF", //blanc
+                align: "center",
+                backgroundColor: "#345EE3", //bleu
+                fixedWidth: espacement - 1  // -1 c'est pour avoir une petite marge d'un pixel entre les lettres
+            });
+            x += espacement;
+            objetGraphique.name = lettre;
+        }
+    }
     initKeyboard() {
         let me = this
         this.input.keyboard.on('keydown', function (kevent) {

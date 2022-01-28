@@ -3,6 +3,12 @@ body{
     font-size: 12px;
     background-color: rgba(0, 0, 0, 0.72);
     text-align: center;
+    background-image: url(https://cdn.discordapp.com/attachments/894924622540206110/936694166463856691/Cfdzt-UUhF5RwCl9V2XmIvF3Yqxw3hixwdv72qgQekk_1920x1080_1x-0.png);
+    background-repeat:no-repeat;
+    background-size: cover;
+    background-position: 100%,100%;
+    overflow: hidden;
+    padding: 0;
 }
 a{
     color: #000000;
@@ -30,16 +36,16 @@ canvas{
 }
 #scores{
     color: #ffffff;
-    font-size : 5vw;
+    font-size : 4vw;
     display: flex;
-    justify-content: center;
+    justify-content: space-evenly;
     position: absolute;
     top: 0;
     width: 100%;
 }
 
 .score{
-    color: #000000
+    color: #4f0000
 }
 .name{
     font-size: 3vw;
