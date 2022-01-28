@@ -2,4 +2,4 @@
  Encore un pong, mais PHAZER
 
 
- Liens : https://lixy0.github.io/PONGPONG/
+ Liens : https://lixy0.github.io/pong/

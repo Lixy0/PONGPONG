@@ -12,4 +12,5 @@ let gameConfig = {
     },
     scene: new Tableau()
 };
+
 let game = new Phaser.Game(gameConfig);
