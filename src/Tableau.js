@@ -6,8 +6,8 @@ class Tableau extends Phaser.Scene {
     preload() {
         this.load.image('carre', 'asset/carre.png');
         this.load.image('carre2', 'asset/carre2.png');
-        this.load.image('carreB', 'asset/carreB.png');
-        this.load.image('carreR', 'asset/carreR.png');
+        this.load.image('carreP', 'asset/carreP.png');
+        this.load.image('carreM', 'asset/carreM.png');
         this.load.image('balle', 'asset/cercle.png');
 
         this.load.image('terrain', 'asset/terrain.png');
@@ -47,13 +47,13 @@ class Tableau extends Phaser.Scene {
         this.balle.body.setMaxVelocityY(100, 100);
 
         //Raquette gauche(physique, taille)
-        this.gauche = this.physics.add.sprite(40, 210, 'carreR').setOrigin(0, 0);
+        this.gauche = this.physics.add.sprite(40, 210, 'carreM').setOrigin(0, 0);
         this.gauche.setDisplaySize(15, 100);
         this.gauche.body.setAllowGravity(false);
         this.gauche.setImmovable(true);
 
         //Raquette droite(physique, taille)
-        this.droite = this.physics.add.sprite(950, 210, 'carreB').setOrigin(0, 0);
+        this.droite = this.physics.add.sprite(950, 210, 'carreP').setOrigin(0, 0);
         this.droite.setDisplaySize(15, 100);
         this.droite.body.setAllowGravity(false);
         this.droite.setImmovable(true);
